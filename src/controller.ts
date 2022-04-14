@@ -2,80 +2,56 @@ import e, { Request, response, Response } from 'express';
 import fs from 'fs/promises';
 import { User } from '../public/user';
 import { pool } from './queries.js';
+import Queries from './queriesService.js';
+
 
 class controller {
 
     public async getAll(req: Request, res: Response) {
-        pool.query('SELECT * FROM users ORDER BY id ASC', (error: any, result: any) => {
-            if (error) {
-                throw error;
-
-            }
-
-            else {
-                res.status(200).json(result.rows);
-            }
+        try {
+            const result = await Queries.getQuery();
+            return res.json(result);
         }
-        );
-
+        catch (error) {
+            response.status(500).json({ error: error.message })
+        }
     }
 
     public async getUserById(req: Request, res: Response) {
-        const id = Number(req.params.id);
-        pool.query('SELECT * FROM users WHERE id = $1', [id], (error, result) => {
-            if (error) {
-                res.status(404).send("You have entered wrong id");
-            }
-            else {
-                res.status(200).json(result.rows);
-            }
+        try {
+            const result = await Queries.getQueryById(+req.params.id);
+            res.json(result.rows[0]);
         }
-        );
+        catch (error) {
+            response.status(500).json({ error: error.message })
+        }
     }
     public async createUser(req: Request, res: Response) {
-        const { id, firstName, middleName, lastName, email, phone, role, address } = req.body;
-        pool.query('INSERT INTO users(id,firstname,middlename,lastname,email,phone,role,address) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
-            [id, firstName, middleName, lastName, email, phone, role, address], (err, result) => {
-                if (err) {
-                    throw err;
-                }
-                else {
-                    res.status(200).send("User added successfully");
-                }
-            }
-        );
-
+        try {
+            const result = await Queries.CreateQuery(req.body);
+            res.json(result);
+        }
+        catch (error) {
+            response.status(500).json({ error: error.message })
+        }
     }
     public async updateUser(req: Request, res: Response) {
+        try {
+            const result = await Queries.updateQuery(req.body);
+            res.json(result.rows[0]);
+        } catch (error) {
+            response.status(500).json({ error: error.message })
+        }
 
-        const id = Number(req.params.id);
-        const { firstName, middleName, lastName, email, phone, role, address } = req.body;
-        pool.query('UPDATE users SET firstname = $1, middlename = $2, lastname = $3, email = $4, phone = $5, role = $6, address = $7 WHERE id = $8',
-            [firstName, middleName, lastName, email, phone, role, address, id], (err, result) => {
-                if (err) {
-                    res.status(400).send("Failed due to bad input");
-                    throw err;
-                }
-                else {
-                    res.status(200).send("Updated");
-                }
-            }
-        );
+
     }
     public async deleteUser(req: Request, res: Response) {
-
-        const id = Number(req.params.id);
-        pool.query('DELETE FROM users WHERE id = $1', [id], (err, result) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                res.status(200).send("Deleted");
-            }
-        });
-
+        try {
+            const result = await Queries.deleteQuery(+req.params.id);
+            res.json(result.rows[0]);
+        } catch (error) {
+            response.status(500).json({ error: error.message })
+        }
     }
-
 }
-
-export const userController = new controller();
+    export const userController = new controller();
