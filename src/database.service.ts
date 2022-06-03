@@ -2,7 +2,7 @@ import e, { Request, response, Response } from 'express';
 import fs from 'fs/promises';
 import { User } from '../public/user';
 import { pool } from './queries.js';
-class Queries {
+class databaseService {
     static async getQuery() {
         try {
             const query = 'SELECT * FROM users ORDER BY id ASC';
@@ -78,4 +78,4 @@ class Queries {
     }
 
 }
-export default Queries;
+export default databaseService;
