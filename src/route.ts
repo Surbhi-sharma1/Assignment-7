@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { request } from 'http';
-import { userController } from './controller.js';
+import { userController } from './UserController.js';
 import { User } from '../public/user.js';
 
 const route = express.Router();

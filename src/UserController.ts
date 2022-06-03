@@ -5,7 +5,7 @@ import { pool } from './queries.js';
 import Queries from './database.service.js';
 
 
-class controller {
+class UserController {
 
     public async getAll(req: Request, res: Response) {
         try {
@@ -54,4 +54,4 @@ class controller {
         }
     }
 }
-export const userController = new controller();
+export const userController = new UserController();

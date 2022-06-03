@@ -1,6 +1,6 @@
 import { UserCRUD } from "./UserCRUD.js";
 
-import { ImainPage } from "./mainButtonsInterface";
+import { IMainPage } from "./mainButtonsInterface";
 
 const DateTimeFormatter =
     (target: Object, methodName: string, descriptor: PropertyDescriptor) => {
@@ -16,7 +16,7 @@ const DateTimeFormatter =
         return descriptor;
     }
 
-class MainPage implements ImainPage {
+class MainPage implements IMainPage {
     Btn: HTMLButtonElement;
     userCRUD: UserCRUD;
     AddBtn: HTMLButtonElement;
