@@ -75,9 +75,12 @@ export class UserCRUD implements CRUD<User>
                         <td id = "role-cell">${user.role}</td>
                         <td id = "address">${user.address}</td>
                         `;
+
         tr.append(editBtn);
         tr.append(deleteBtn);
         this.tableEle.append(tr);
+
+        console.log(tr.children);
         this.tableContainer.innerHTML = "";
         this.tableContainer.append(this.tableEle);
 
@@ -85,6 +88,7 @@ export class UserCRUD implements CRUD<User>
 
     addUser() {
         let tr = this.tableEle.insertRow(-1);
+
         let index = tr.rowIndex;
         let user: User;
         for (let cols in this.col) {

@@ -2,7 +2,7 @@ import e, { Request, response, Response } from 'express';
 import fs from 'fs/promises';
 import { User } from '../public/user';
 import { pool } from './queries.js';
-import Queries from './queriesService.js';
+import Queries from './database.service.js';
 
 
 class controller {
@@ -54,4 +54,4 @@ class controller {
         }
     }
 }
-    export const userController = new controller();
+export const userController = new controller();
